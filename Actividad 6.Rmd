@@ -6,7 +6,6 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-
 knitr::opts_chunk$set(echo = TRUE)
 
 ```
@@ -24,26 +23,39 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Ejercicio 2
-Cargar la libreria `tidyverse` y con los datos `mpg` usar las funciones que vimos de `dplyr` para  transformar los datos de la siguiente forma. 
+Cargar la libreria `tidyverse` y con los datos `mpg` usar las funciones que vimos de `dplyr` para  transformar los datos de la siguiente forma.
 
-```{r, echo = FALSE}
 
+```{r,,message=FALSE, warning=FALSE,echo=FALSE}
 library(tidyverse)
-data(mpg)
-mpg
-
 ```
-1. Seleccionar el conjunto de autos del 2008 que tienen `hwy` mayor a 31. �Cuantos autos son?
+\fbox{\begin{minipage}{48em}
+Agregué un chunck separado para las librerí tidyverse 
+\end{minipage}}
 
-```{r,echo = FALSE}
+```{r,echo=FALSE}
+data(mpg)
+ mpg
+```
 
+
+
+1. Seleccionar el conjunto de autos del 2008 que tienen `hwy` mayor a 31. ?Cuantos autos son?
+
+```{r}
 x1 <- filter(mpg,year==2008 & hwy>31)
 length(x1$hwy)
 
 ```
-El conjunto de autos del 2008 que tienen "hwy" mayor a 31 tiene 6 autos.
 
-2. Seleccionar el conjutno de autos que tienen `cty` igual a 9 o hwy es mayor a 90. �Cuantos autos son? 
+El conjunto de autos del 2008 que tienen "hwy" mayor a 31 tiene 6 autos. 
+
+
+\fbox{\begin{minipage}{48em}
+Bien
+\end{minipage}}
+
+2. Seleccionar el conjutno de autos que tienen `cty` igual a 9 o hwy es mayor a 90. ?Cuantos autos son?  
 
 ``` {r, echo = FALSE}
 
@@ -53,14 +65,21 @@ length(x2$hwy)
 ```
 El conjutno de autos que tienen `cty` igual a 9 o hwy es mayor a 90 tiene 5 autos.
 
+\fbox{\begin{minipage}{48em}
+Bien
+\end{minipage}}
+
 3. Selecciona la variable `displ` y `hwy`
 
 ```{r, echo = FALSE}
 
-x3 <- select(mpg,c(displ,hwy))
-x3
+x3 <- select(mpg,c(displ,hwy)) 
+x3 
+``` 
 
-```
+\fbox{\begin{minipage}{48em}
+Bien
+\end{minipage}}
 
 4. Selecciona desde la variable `trans` hasta la variable `hwy`
 
@@ -71,7 +90,11 @@ x4
 
 ```
 
-5. Crear una nueva variable que transforme  `hwy` (millas por galon) en litros/100 km 
+\fbox{\begin{minipage}{48em}
+Bien
+\end{minipage}}
+
+5. Crear una nueva variable que transforme  `hwy` (millas por galon) en litros/100 km
 Primero tenes que saber la conversion de galones a litros y de millas a kilometros
 
 `1 gallon = 3.78541 litros`
@@ -85,9 +108,13 @@ mpg
 
 ```
 
+\fbox{\begin{minipage}{48em}
+Si mir\'as la media de tu nueva variable te da 5514, es muy alto como rendimiento en  por litro. La cuenta que hay que hacer es
+mpg %>% mutate(hwylkm = (3.78541/1.60934)*100/hwy)
+\end{minipage}}
 
 # Ejercicio 3
- 
+
 Para esta actividad vamos a utilizar los datos happy que se encuentran en la libreria productplots. Con estos datos vamos a investigar algunas preguntas sobre que cosas afectan la felicidad de la gente. Para responder estas preguntas utilizaremos dplyr.
 
 ```{r,echo=FALSE}
@@ -99,7 +126,7 @@ head(happy)
 
 ```
 
-1. Encontra el porcentaje para los distintos niveles de felicidad para hombres y mujeres a lo largo de todos los a�os.
+1. Encontra el porcentaje para los distintos niveles de felicidad para hombres y mujeres a lo largo de todos los años.
 
 ```{r, echo = FALSE}
 
@@ -111,78 +138,112 @@ filter(!is.na(happy)) %>%
 
 ```
 
-2. Grafica los porcentajes en un grafico de dispersion con year en el eje x y porcentaje en el eje y. Tendria que haber un total de seis puntos para cada a�o, colorea los puntos segun happy y remove la clase NA usando filter.
+\fbox{\begin{minipage}{48em}
+Bien, en este caso pedimos el resumen. Ver solucioón que aclara un punto importante de group\_by y summarise. Hay que incluir comentarios de lo que se aprende con la visualización. 
+\end{minipage}}
+
+2. Grafica los porcentajes en un grafico de dispersion con year en el eje x y porcentaje en el eje y. Tendria que haber un total de seis puntos para cada a?o, colorea los puntos segun happy y remove la clase NA usando filter.
 
 ```{r, echo = FALSE}
 
-happy %>% 
-filter(!is.na(happy)) %>% 
- ggplot(aes(x=factor(year), fill=happy)) + 
+happy %>%
+filter(!is.na(happy)) %>%
+ ggplot(aes(x=factor(year), fill=happy)) +
   geom_bar(position = "fill") +
-  labs(x = "A�o", y = "Procentaje", fill = "Nivel de felicidad")
+  labs(x = "Año", y = "Procentaje", fill = "Nivel de felicidad")
 
 ```
 
-3. �Como se ve afectada la felicidad segun el genero?
+\fbox{\begin{minipage}{48em}
+Esta visualización es correcta y muestra la info que queremos ver pero lo que se pedía es un scatter plot o diagrama de dispersión. Mirá la solución 
+\end{minipage}}
+
+3. ?Como se ve afectada la felicidad segun el genero?
 
 Por lo que se puede observar en el primer grafico de barras el nivel de felicidad no se ve afectado por el genero.
 
-4. �Como se ve afectada la felicidad segun la edad? �Existe una diferencia entre hombres y mujeres?
+\fbox{\begin{minipage}{48em}
+Bien
+\end{minipage}}
+
+4. ?Como se ve afectada la felicidad segun la edad? ?Existe una diferencia entre hombres y mujeres?
 
 ```{r, echo = FALSE}
-happy %>% 
+happy %>%
 filter(!is.na(happy)) %>%
- ggplot(aes(x = age, fill = happy)) + 
-  geom_bar(position = "fill") + 
+ ggplot(aes(x = age, fill = happy)) +
+  geom_bar(position = "fill") +
   facet_wrap(~sex) +
   labs(x = "Edad", y = "Porcentaje", fill = "Nivel de felicidad")
-  
-```
-Se puede observar un aumento de la felicidad a lo largo de los a�os de una persona el cual se ve de manera mas marcada en los hombres
 
-5. �Y si analizamos por estado civil y situacion financiera que encontramos?
+``` 
+
+Se puede observar un aumento de la felicidad a lo largo de los a?os de una persona el cual se ve de manera mas marcada en los hombres
+\fbox{\begin{minipage}{48em}
+Incluir título en los gráficos, si lo ponés en el chunck de código fig.cap="Título que quieras" te numera las figuras.
+Mirá la solución
+\end{minipage}}
+5. ?Y si analizamos por estado civil y situacion financiera que encontramos?
 
 ```{r}
 
-happy %>% 
+happy %>%
 filter(!is.na(happy)) %>%
 filter(!is.na(marital)) %>%
 filter(!is.na(finrela)) %>%
-  ggplot(aes(x = finrela, fill = happy)) + 
-   geom_bar(position = "fill") +  
+  ggplot(aes(x = finrela, fill = happy)) +
+   geom_bar(position = "fill") +
    facet_wrap(~marital) +
    labs(x = "Situacion financiera", y = "Porcentaje", fill = "Nivel de felicidad") +
-   theme(axis.text.x = element_text(angle = 45))
+ theme(axis.text.x = element_text(angle = 45)) 
 
 ```
-Se puede observar que a mejor situaci�n financiera mas feliz es la gente en relaci�n a su estado civil en el caso de las personas casadas, divorciadaso solteras. 
+Se puede observar que a mejor situaci?n financiera mas feliz es la gente en relación a su estado civil en el caso de las personas casadas, divorciadaso solteras. 
 En el caso de las personas separadas este aumento se ve pero la diferencia es que el niver "pretty happy" disminuye mientres que aumenta "not to happy"
 Las personas viudas siguen esta regla de creciemiento salvo en el ultimo nivel de situacion financiera donde se ve una disminucuin de la felicidad.
+
+
+\fbox{\begin{minipage}{48em}
+Bien, tal vez es más sencillo ver las variables por separado. Incluir título 
+\end{minipage}}
 
 6. En relacion a la variable educacion que se puede ver
 
 ```{r, echo = FALSE}
 
-happy %>% 
+happy %>%
 filter(!is.na(happy)) %>%
-filter(!is.na(degree)) %>%  
- ggplot(aes(x = degree, fill = happy)) + 
-  geom_bar(position = "fill") + 
+filter(!is.na(degree)) %>%
+ ggplot(aes(x = degree, fill = happy)) +
+  geom_bar(position = "fill") +
   labs(x = "Educacion", y = "Porcentaje", fill = "Nivel de felicidad")
-  
-```
+
+``` 
 La gente es mas feliz cuanto mayor grado academico logra.
 
-7. �Y respecto a salud?
+\fbox{\begin{minipage}{48em}
+Bien. Incluir título 
+\end{minipage}}
+
+7. ?Y respecto a salud?
 
 ```{r, echo = FALSE}
 
-happy %>% 
+happy %>%
 filter(!is.na(happy)) %>%
 filter(!is.na(health)) %>%
- ggplot(aes(x = health, fill = happy)) + 
-  geom_bar(position = "fill") + 
+ ggplot(aes(x = health, fill = happy)) +
+  geom_bar(position = "fill") +
   labs(x = "Salud", y = "Porcentaje", fill = "Nivel de felicidad")
-  
+
 ```
 La gente cuanto mejor salud mas feliz es.
+
+\fbox{\begin{minipage}{48em}
+Bien. Incluir título 
+\end{minipage}}
+
+\fbox{\begin{minipage}{48em}
+Buen trabajo. Tenés que trabajar en los títulos de los gráficos y revisar la ortografía.
+PUNTOS:9/10
+\end{minipage}}
